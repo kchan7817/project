@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Kotlin_project">
         <activity
+            android:name=".dialog_custom"
+            android:exported="false" />
+        <activity
             android:name=".JoinActivity"
             android:exported="false"
             tools:ignore="Instantiatable" />

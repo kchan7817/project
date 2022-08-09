@@ -2,6 +2,7 @@ package com.cookandroid.kotlin_project
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import com.cookandroid.kotlin_project.databinding.ActivityJoinBinding
 
 class JoinActivity : AppCompatActivity() {
@@ -20,6 +21,13 @@ class JoinActivity : AppCompatActivity() {
             var pw = binding.edtPasswd.text.toString()
             var pwck = binding.edtPasswdCheck.text.toString()
             var email = binding.edtEmail.text.toString()
+
+            var builder = AlertDialog.Builder(this)
+            builder.setTitle("이메일 인증")
+
+            var v1 = layoutInflater.inflate(R.layout.activity_dialog_custom, null)
+            builder.setView(v1)
+            builder.show()
 
         }
 
