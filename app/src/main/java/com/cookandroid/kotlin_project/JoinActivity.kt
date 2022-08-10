@@ -27,6 +27,9 @@ class JoinActivity : AppCompatActivity() {
 
             var v1 = layoutInflater.inflate(R.layout.activity_dialog_custom, null)
             builder.setView(v1)
+            builder.setPositiveButton("확인",null)
+            builder.setNegativeButton("취소",null)
+
             builder.show()
 
         }

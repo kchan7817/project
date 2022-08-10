@@ -30,28 +30,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_gravity="right"
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:orientation="horizontal">
 
-        <Button
-            android:layout_marginRight="10dp"
-            android:id="@+id/btn_negative"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="취소"
-            android:textSize="20dp"/>
-
-        <Button
-            android:id="@+id/btn_positive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="확인"
-            android:textSize="20dp"/>
-    </LinearLayout>
 
 
 

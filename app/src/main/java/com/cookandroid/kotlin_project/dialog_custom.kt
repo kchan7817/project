@@ -3,6 +3,7 @@ package com.cookandroid.kotlin_project
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import com.cookandroid.kotlin_project.databinding.ActivityDialogCustomBinding
 import kotlin.concurrent.thread
 
@@ -18,8 +19,6 @@ class dialog_custom : AppCompatActivity() {
         setContentView(binding.root)
 
         start()
-
-
     }
 
     fun start(){
