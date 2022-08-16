@@ -13,15 +13,11 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import com.cookandroid.kotlin_project.LoginResponse
 import java.lang.reflect.Array.get
 
 class JoinActivity : AppCompatActivity() {
 
-    lateinit var realname: EditText
-    lateinit var birthday: EditText
-    lateinit var username: EditText
-    lateinit var password: EditText
-    lateinit var email: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +40,14 @@ class JoinActivity : AppCompatActivity() {
             .build()
 
         val service = retrofit.create(signservice::class.java)
-        val userInfo: LoginResponse
+        val userInfo: Call<LoginResponse> = service.register(LoginResponse(birthday="$birthday", email="$email", username="$username", realname="$realname", password = "$password"))
 
         binding.btnCheck.setOnClickListener{
 
-            service.register(LoginResponse(username,birthday,password,email,realname)).enqueue(object :Callback<LoginResponse>{
+            userInfo.enqueue(object :Callback<LoginResponse>{
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     val result = response.body()
-                    Log.d("회원가입성공","${result}")
+                    Log.d("회원가입성공","$result")
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -77,7 +73,8 @@ class JoinActivity : AppCompatActivity() {
 }
 
 interface signservice{
-    @Headers("content-type: application/json", "accept: application/json")
+    @Headers("content-type: application/json",
+             "accept: application/json")
     @POST("/auth/signup")
     fun register(@Body userInfo: LoginResponse) : Call<LoginResponse>
 }
