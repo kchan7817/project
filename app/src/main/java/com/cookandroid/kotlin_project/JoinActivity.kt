@@ -3,6 +3,7 @@ package com.cookandroid.kotlin_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.cookandroid.kotlin_project.databinding.ActivityJoinBinding
 import com.google.gson.internal.GsonBuildConfig
@@ -11,12 +12,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 import java.lang.reflect.Array.get
 
 class JoinActivity : AppCompatActivity() {
+
+    lateinit var realname: EditText
+    lateinit var birthday: EditText
+    lateinit var username: EditText
+    lateinit var password: EditText
+    lateinit var email: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,31 +31,31 @@ class JoinActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        var name = binding.edtName.text.toString()
+        var realname = binding.edtName.text.toString()
         var birthday  = binding.edtBirthday.text.toString()
-        var id = binding.edtJoinId.text.toString()
-        var pw = binding.edtPasswd.text.toString()
-        var pwck = binding.edtPasswdCheck.text.toString()
+        var username = binding.edtJoinId.text.toString()
+        var password = binding.edtPasswd.text.toString()
         var email = binding.edtEmail.text.toString()
 
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://kangtong1105.codns.com:8000")
+            .baseUrl("http://kangtong1105.codns.com:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val service = retrofit.create(signservice::class.java)
+        val userInfo: LoginResponse
 
         binding.btnCheck.setOnClickListener{
 
-            service.register(name,birthday,id,pw,pwck,email).enqueue(object :Callback<LoginResponse>{
+            service.register(LoginResponse(username,birthday,password,email,realname)).enqueue(object :Callback<LoginResponse>{
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     val result = response.body()
-                    Log.d("로그인","${result}")
+                    Log.d("회원가입성공","${result}")
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Log.e("로그인","${t.localizedMessage}")
+                    Log.e("회원가입실패","${t.localizedMessage}")
                 }
             })
 
@@ -72,12 +77,7 @@ class JoinActivity : AppCompatActivity() {
 }
 
 interface signservice{
-    @FormUrlEncoded
+    @Headers("content-type: application/json", "accept: application/json")
     @POST("/auth/signup")
-    fun register(@Field("name") name:String,
-                 @Field("birthday") birthday:String,
-                 @Field("id") id:String,
-                 @Field("pw") pw:String,
-                 @Field("pwck") pwck:String,
-                 @Field("email") email:String) : Call<LoginResponse>
+    fun register(@Body userInfo: LoginResponse) : Call<LoginResponse>
 }
