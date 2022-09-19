@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val intent: Intent = Intent(this, JoinActivity::class.java)//intent 선언
+        val intent2: Intent = Intent(this, MainActivity_maps::class.java)
         val binding = ActivityMainBinding.inflate(layoutInflater)// java의 findviewbyid 작업을 안해도됨
 
         setContentView(binding.root)
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnJoin.setOnClickListener{
             startActivity(intent) // binding 쓰는법
         }
-
+        binding.btnLogin.setOnClickListener{
+            startActivity(intent2)
+        }
     }
 }

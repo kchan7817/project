@@ -3,21 +3,19 @@ package com.cookandroid.kotlin_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import com.cookandroid.kotlin_project.databinding.ActivityJoinBinding
-import com.google.gson.internal.GsonBuildConfig
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import com.cookandroid.kotlin_project.LoginResponse
-import java.lang.reflect.Array.get
 
 class JoinActivity : AppCompatActivity() {
 
+    val api = signservice.create();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +25,14 @@ class JoinActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        /*
         var realname = binding.edtName.text.toString()
         var birthday  = binding.edtBirthday.text.toString()
         var username = binding.edtJoinId.text.toString()
         var password = binding.edtPasswd.text.toString()
         var email = binding.edtEmail.text.toString()
 
+        Log.d("api value test", "aaaa" + realname)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("http://kangtong1105.codns.com:8000")
@@ -41,20 +41,29 @@ class JoinActivity : AppCompatActivity() {
 
         val service = retrofit.create(signservice::class.java)
         val userInfo: Call<LoginResponse> = service.register(LoginResponse(birthday="$birthday", email="$email", username="$username", realname="$realname", password = "$password"))
+        */
 
         binding.btnCheck.setOnClickListener{
-
-            userInfo.enqueue(object :Callback<LoginResponse>{
+            val data = LoginResponse(
+                binding.edtName.text.toString(),
+                binding.edtBirthday.text.toString(),
+                binding.edtJoinId.text.toString(),
+                binding.edtPasswd.text.toString(),
+                binding.edtEmail.text.toString(),
+            )
+            api.register(data).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                    val result = response.body()
-                    Log.d("회원가입성공","$result")
+                    val result = response.code();
+                    if(result in 200..299)
+                        Log.d("회원가입성공", response.body().toString())
+                    else
+                        Log.w("회원가입실패", response.body().toString())
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Log.e("회원가입실패","${t.localizedMessage}")
+                    Log.e("연결 실패","${t.localizedMessage}")
                 }
             })
-
 
 
             /*var builder = AlertDialog.Builder(this)
@@ -73,8 +82,23 @@ class JoinActivity : AppCompatActivity() {
 }
 
 interface signservice{
-    @Headers("content-type: application/json",
-             "accept: application/json")
     @POST("/auth/signup")
-    fun register(@Body userInfo: LoginResponse) : Call<LoginResponse>
+    @Headers("content-type: application/json",
+        "accept: application/json")
+    fun register(@Body jsonparams: LoginResponse) : Call<LoginResponse>
+
+    companion object { // static 처럼 공유객체로 사용가능함. 모든 인스턴스가 공유하는 객체로서 동작함.
+        private const val BASE_URL = "http://kangtong1105.codns.com:8000" // 주소
+
+        fun create(): signservice {
+
+            val gson : Gson = GsonBuilder().setLenient().create();
+
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+                .create(signservice::class.java)
+        }
+    }
 }
