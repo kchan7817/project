@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.cookandroid.kotlin_project.BuildConfig.api_key
 import com.google.android.gms.location.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
@@ -30,7 +31,7 @@ class MainActivity_maps : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_maps)
         NaverMapSdk.getInstance(this).client =
-            NaverMapSdk.NaverCloudPlatformClient("w1caabbncc")
+            NaverMapSdk.NaverCloudPlatformClient(api_key)
 
         // 뷰 역할을 하는 프래그먼트 객체 얻기
         val fm = supportFragmentManager
@@ -74,6 +75,7 @@ class MainActivity_maps : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+        private const val API_KEY = BuildConfig.API_KEY
     }
 
 }

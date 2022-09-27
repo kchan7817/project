@@ -40,8 +40,8 @@
             </intent-filter>
         </activity>
         <meta-data
-            android:name="com.naver.maps.map.w1caabbncc"
-            android:value="w1caabbncc" />
+            android:name="com.naver.maps.map.api_key"
+            android:value="api_key" />
     </application>
 
 </manifest>
