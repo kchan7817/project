@@ -45,11 +45,12 @@ class JoinActivity : AppCompatActivity() {
 
         binding.btnCheck.setOnClickListener{
             val data = LoginResponse(
-                binding.edtName.text.toString(),
                 binding.edtBirthday.text.toString(),
-                binding.edtJoinId.text.toString(),
-                binding.edtPasswd.text.toString(),
                 binding.edtEmail.text.toString(),
+                binding.edtNickname.text.toString(),
+                binding.edtName.text.toString(),
+                binding.edtPasswd.text.toString(),
+
             )
             api.register(data).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -88,7 +89,7 @@ interface signservice{
     fun register(@Body jsonparams: LoginResponse) : Call<LoginResponse>
 
     companion object { // static 처럼 공유객체로 사용가능함. 모든 인스턴스가 공유하는 객체로서 동작함.
-        private const val BASE_URL = "http://kangtong1105.codns.com:8000" // 주소
+        private const val BASE_URL = "http://kangtong1105.codns.com:8080" // 주소
 
         fun create(): signservice {
 

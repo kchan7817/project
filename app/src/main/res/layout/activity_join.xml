@@ -58,7 +58,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:hint="생년월일 입력 ex) 19990228" />
+            android:hint="생년월일 입력 ex) 1999-02-28" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,15 +73,15 @@
             android:layout_height="wrap_content"
             android:layout_weight=".3"
             android:gravity="end"
-            android:text="아이디"
+            android:text="닉네임"
             android:layout_marginRight="30dp"/>
 
         <EditText
-            android:id="@+id/edt_join_id"
+            android:id="@+id/edt_Nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".7"
-            android:hint="아이디 입력"/>
+            android:hint="닉네임 입력"/>
     </LinearLayout>
 
     <LinearLayout

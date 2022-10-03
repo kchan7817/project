@@ -26,10 +26,10 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="ID"
+            android:text="EMAIL"
             android:textSize="30dp"/>
         <EditText
-            android:id="@+id/ID"
+            android:id="@+id/email"
             android:layout_marginRight="30dp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
