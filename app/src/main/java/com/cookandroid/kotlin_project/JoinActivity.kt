@@ -3,6 +3,7 @@ package com.cookandroid.kotlin_project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.cookandroid.kotlin_project.databinding.ActivityJoinBinding
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -57,8 +58,12 @@ class JoinActivity : AppCompatActivity() {
                     val result = response.code();
                     if(result in 200..299)
                         Log.d("회원가입성공", response.body().toString())
-                    else
+                    else {
                         Log.w("회원가입실패", response.body().toString())
+                        if (binding.edtPasswd != binding.edtPasswdCheck){
+                            Toast.makeText(this@JoinActivity,"비밀번호가 일치하지 않습니다",Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
