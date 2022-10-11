@@ -1,34 +1,40 @@
+import android.os.Bundle
 import android.util.Log
+import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
-import okio.ByteString
+import java.net.Socket
+import java.net.URISyntaxException
+
 
 class SocketApplication : WebSocketListener() {
-    override fun onOpen(webSocket: WebSocket, response: Response?) {
-        webSocket.send("{\"type\":\"ticker\", \"symbols\": [\"BTC_KRW\"], \"tickTypes\": [\"30M\"]}")
-        webSocket.close(NORMAL_CLOSURE_STATUS, null) //없을 경우 끊임없이 서버와 통신함
+
+    override fun onOpen(webSocket: WebSocket, response: Response) {
+        super.onOpen(webSocket, response)
+        webSocket.send("성공이다 이거야~^^")
+        Log.d("greenfrog","로그창 성공")
     }
 
-    override fun onMessage(webSocket: WebSocket?, text: String) {
-        Log.d("Socket","Receiving : $text")
-    }
-
-    override fun onMessage(webSocket: WebSocket?, bytes: ByteString) {
-        Log.d("Socket", "Receiving bytes : $bytes")
+    override fun onMessage(webSocket: WebSocket, text: String) {
+        output("받아랏!!: $text")
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        Log.d("Socket","Closing : $code / $reason")
-        webSocket.close(NORMAL_CLOSURE_STATUS, null)
-        webSocket.cancel()
+        webSocket.close(NORMAL_CLOSSURE_STATUS, null)
+        output("Closing: $code / $reason")
     }
 
-    override fun onFailure(webSocket: WebSocket?, t: Throwable, response: Response?) {
-        Log.d("Socket","Error : " + t.message)
+    override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+        output("ERROR: " + t.message)
     }
 
-    companion object {
-        private const val NORMAL_CLOSURE_STATUS = 1000
+    fun output(text: String) {
+        Log.d("websocket", text!!)
+
+    }
+
+    companion object{
+        private const val NORMAL_CLOSSURE_STATUS = 1000
     }
 }
