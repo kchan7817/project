@@ -52,18 +52,21 @@ class JoinActivity : AppCompatActivity() {
                 binding.edtName.text.toString(),
                 binding.edtPasswd.text.toString(),
 
+
             )
             api.register(data).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     val result = response.code();
                     if(result in 200..299)
                         Log.d("회원가입성공", response.body().toString())
+
                     else {
                         Log.w("회원가입실패", response.body().toString())
                         if (binding.edtPasswd != binding.edtPasswdCheck){
                             Toast.makeText(this@JoinActivity,"비밀번호가 일치하지 않습니다",Toast.LENGTH_SHORT).show()
                         }
                     }
+
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -82,6 +85,9 @@ class JoinActivity : AppCompatActivity() {
 
             builder.show()*/
 
+            MySharedPreferences.setRealName(this, data.realname)
+            MySharedPreferences.setUserName(this, data.username)
+            MySharedPreferences.setBirthday(this, data.birthday)
         }
 
     }
